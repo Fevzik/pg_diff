@@ -121,7 +121,9 @@ func main() {
 			err = newDB.Select(&indexStrings, sql)
 			if err == nil {
 				for _, ind := range indexStrings {
-					migrationString += fmt.Sprintf("%s;\n", ind)
+					if !strings.Contains(ind, "_pkey") {
+						migrationString += fmt.Sprintf("%s;\n", ind)
+					}
 				}
 			}
 		}
@@ -285,7 +287,10 @@ func main() {
 		}
 
 		for _, ci := range createIndex {
-			migrationString += fmt.Sprintf("%s;\n", ci)
+			if !strings.Contains(ci, "_pkey") {
+				migrationString += fmt.Sprintf("%s;\n", ci)
+			}
+
 		}
 	}
 
